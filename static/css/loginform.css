@@ -1,0 +1,90 @@
+/* loginform.css */
+
+/* Main container */
+.login-containers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+ul li{
+    font-size: 0.8rem;
+}
+.login-cont{
+    width: 38vw;
+    display: flex;
+    flex-direction: column;
+    /* height: 50vh; */
+    padding: 4rem 4rem 4rem;
+    border: 2px solid #eee;
+}
+/* Form title */
+.login-containers h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    width: 30vw;
+}
+
+/* Form input fields */
+.login-containers input[type="text"],
+.login-containers input[type="password"] ,.login-containers input[type="email"]{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.helptext{
+    display: none;
+}
+/* Login button */
+.login-containers button {
+    padding: 10px;
+    background-color: #264653;
+    color: #fff;
+    border: none;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Login button hover effect */
+.login-containers button:hover {
+    background-color: #264653;
+}
+
+/* Extra text */
+.login-containers .extra {
+    margin-top: 20px;
+    
+}
+.extra{
+    margin-left: 4rem;
+}
+
+/* Extra text link */
+.login-containers .extra a {
+    text-decoration: none;
+}
+
+/* Extra text link hover effect */
+.login-containers .extra a:hover {
+    text-decoration: underline;
+}
+a{
+    color: white !important;
+}

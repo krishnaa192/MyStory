@@ -1,0 +1,26 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/part.css' %}">
+    <title>{{part.name}}</title>
+    
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="part-container">
+        <h1><p>{{ part.story.title }}</h1>
+        <img src="{{part.part_image.url}}" alt="{{part.name}}">
+        <h2>Part {{part.part_number}}:{{part.name}}</h2> 
+        <div class="author">
+        <h3> <img src="{{part.story.author.profile.url}} " alt=""> <a href="">{{ part.story.author }}</a></h3> 
+    </div>
+       
+        <div class="part-text">
+        <p>{{part.text|safe}}</p>
+    </div>
+    </div>
+</body>
+</html>

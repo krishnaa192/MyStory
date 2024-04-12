@@ -1,0 +1,30 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/loginform.css' %}">
+    <link rel="stylesheet" href="{%static 'css/linearicons.css'%}">
+<link rel="stylesheet" href="{%static 'css/font-awesome.min.css' %}">
+<link rel="stylesheet" href="{%static 'css/bootstrap.css' %}">
+<link rel="stylesheet" href="{%static 'css/owl.carousel.css' %}">
+<link rel="stylesheet" href="{%static 'css/main.css' %}">
+</head>
+<body>
+
+    {% include 'header.html' %}
+<div class="login-containers">
+    <h1 style="margin-bottom: -2.7rem;
+    margin-top: 7rem;"> Edit</h1>
+    <div class="login-cont">
+    <form action="" method="post"  enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+    
+        </form>
+
+</body>
+</html>

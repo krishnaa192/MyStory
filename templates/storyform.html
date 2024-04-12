@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/storyform.css' %}">
+    <title>Add Story</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+<!--
+    CSS
+    ============================================= -->
+<link rel="stylesheet" href="{%static 'css/linearicons.css'%}">
+<link rel="stylesheet" href="{%static 'css/font-awesome.min.css' %}">
+<link rel="stylesheet" href="{%static 'css/bootstrap.css' %}">
+<link rel="stylesheet" href="{%static 'css/owl.carousel.css' %}">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/storyform.css' %}">
+</head>
+<body>
+    {% include 'header.html' %}
+
+
+    <div class="see-your-story">
+        <button>
+            <a href="{% url 'user_story' %}">See Your Story</a>
+        </button>
+
+    </div>
+    <div class="storyform">
+        <h1>Add Story</h1>
+        <hr>
+        <div class="story-form">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+ <!-- method to add premioum stories if user has premium subscription  -->
+                <div class="form-group">
+                {% if user.is_authenticated %}
+                {% if author.is_premium %}
+                <label for="id_premium">Premium Story:</label>
+                    {{ form.premium_story }}
+                    {% for error in form.premium.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                {% else %}
+                <div class="no-disply">
+                    <label for=""> <a href="">Take Subscription to post Paid story </a> </label>
+                </div>
+            
+                {% endif %}
+        
+                {% endif %}
+                    
+
+
+
+
+                <!-- Title Field -->
+                <div class="form-group">
+                    <label for="id_title">Title:</label>
+                    {{ form.title }}
+                    {% for error in form.title.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <!-- Description Field -->
+                <div class="form-group">
+                    <label for="id_description">Description:</label>
+                    {{ form.description }}
+                    {% for error in form.description.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <!-- Image Field -->
+                <div class="form-group">
+                    <label for="id_image">Image:</label>
+                    {{ form.image }}
+                    {% for error in form.image.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <!-- Category Field -->
+                <div class="form-group">
+                    <label for="id_category">Category:</label>
+                    {{ form.category }}
+                    {% for error in form.category.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <!-- Audience Field -->
+                <div class="form-group">
+                    <label for="id_audience">Audience:</label>
+                    {{ form.audience }}
+                    {% for error in form.audience.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <!-- Language Field -->
+                <div class="form-group">
+                    <label for="id_language">Language:</label>
+                    {{ form.language }}
+                    {% for error in form.language.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <!-- Tag Field -->
+                <div class="form-group">
+                    <label for="id_tag">Tag:</label>
+                    <div>
+                        {{ form.tag }}
+                        {% for error in form.tag.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

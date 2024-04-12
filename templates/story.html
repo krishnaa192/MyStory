@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+<!--
+    CSS
+    ============================================= -->
+<link rel="stylesheet" href="{%static 'css/linearicons.css'%}">
+<link rel="stylesheet" href="{%static 'css/font-awesome.min.css' %}">
+<link rel="stylesheet" href="{%static 'css/bootstrap.css' %}">
+<link rel="stylesheet" href="{%static 'css/owl.carousel.css' %}">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/story.css' %}">
+    <title>{{ story }}</title>
+</head>
+
+<body>
+    {% include 'header.html' %}
+    <div class="story-header">
+        <div class="align-left">
+            <p> <a href="{% url 'user_story' %}"><i class=" fas fa-solid fa-angle-left"></i></a></p>
+            <div class="text-right">
+                <p> Edit story Detail</p>
+                <span> <a href=""></a>{{ story.title }}{% if story.premium_story%} <i style="color: orange;;" class="fas fa-solid fa-crown"></i> {%endif%}
+                </span>
+            </div>
+        </div>
+        <div class="align-right">
+            <button class="red"><a style="color: #eee;" href="{% url 'delete-story' id=story.id %}">Delete</a></button>
+            <button class="green"> <a style="color: #eee;"  href="">Save</></button>
+        </div>
+    </div>
+    <div class="story-body">
+        <div class="story-body-left">
+            <img src="{{ story.image.url }}" alt="">
+            <button><a href="">Read as a visitor</a></button>
+            <div class="share">
+                <p>Share</p>
+                <div class="share-icons">
+                    <a href=""><i class="fab fa-facebook-f"></i></a>
+                    <a href=""><i class="fab fa-twitter"></i></a>
+                    <a href=""><i class="fab fa-linkedin-in"></i></a>
+                    <a href=""><i class="fab fa-whatsapp"></i></a>
+                    <a href=""><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="story-body-right">
+            <div class="story-detail">
+                <div class="works-edit-select">
+                    <button class="on-switch-type active" id="tab1" data-section="story-detail"> <a href="#">Story
+                            Details</a></button>
+                    <button class="on-switch-type" id="tab2" data-section="toc"> <a href="#">Table of
+                            Contents</a></button>
+                </div>
+                <hr>
+                <div id="story-details">
+                    <div class="story-title">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title" value="{{ story.title }}" readonly>
+                    </div>
+                    <div class="story-description">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" cols="30"
+                            rows="10">{{ story.description }}</textarea>
+                    </div>
+                    <div class="story-category">
+                        <label for="category">Category</label>
+                        <input type="text" name="category" id="category" value="{{ story.category }}" readonly>
+                    </div>
+                    <div class="story-tags">
+                        <label for="tags">Tags</label>
+                        <input type="text" name="tags" id="tags" value="{{ story.tag }}" readonly>
+                    </div>
+                    <div class="story-language">
+                        <label for="status">Language</label>
+                        <input type="text" name="status" id="status" value="{{ story.language }}" readonly>
+                    </div>
+                    <div class="story-audience">
+                        <label for="audience">Audience</label>
+                        <input type="text" name="audience" id="audience"  value="{{ story.audience }}" readonly>
+                    </div>
+                    <div class="end">
+                        <button> <a href="{% url 'edit-story' id=story.id %}">Edit the story</a></button>
+                    </div>
+                </div>
+                <div id="table-of-contents" style="display: none;">
+
+                    <button><a href="{% url 'add-part' id=story.id %}">Add Part</a></button>
+                    <div class="part-list">
+                        {% if part %}
+                        <ul>
+                            {% for parts in part %}
+                            <li>
+                                <div class="storypart">
+                                    <div class="part-main">
+                                    <i class="fa-solid fa-bars"></i> <span>   Part-{{ parts.part_number }}</span>
+                                  <span class="part-name"> <a href="{% url 'read' story_id=story.id part_id=parts.id %}" style="color: black;">
+                                    {{ parts.name }}
+                                </a>
+                                </span>
+                                    <p> <small> <b>Published</b></small> at 2:20 Pm  </p>
+                                </div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                          <li><button class="dropdown-item" type="button">Unpublish</button></li>
+                                          <li><button class="dropdown-item" type="button">   <a href="{% url 'remove-part' story_id=story.id part_id=parts.id  %}">Delete</a> </button></li>
+                                          <li><button class="dropdown-item" type="button">Edit</button></li>
+                                        </ul>
+                                      </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p> No parts available</p>
+                        {% endif %}
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tab1Button = document.getElementById('tab1');
+        const tab2Button = document.getElementById('tab2');
+        const storyDetails = document.getElementById('story-details');
+        const tableOfContents = document.getElementById('table-of-contents');
+
+        tab1Button.addEventListener('click', function () {
+            tab1Button.classList.add('active');
+            tab2Button.classList.remove('active');
+            storyDetails.style.display = 'block';
+            tableOfContents.style.display = 'none';
+        });
+
+        tab2Button.addEventListener('click', function () {
+            tab1Button.classList.remove('active');
+            tab2Button.classList.add('active');
+            storyDetails.style.display = 'none';
+            tableOfContents.style.display = 'block';
+        });
+    </script>
+</body>
+
+</html>
