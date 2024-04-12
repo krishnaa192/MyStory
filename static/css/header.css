@@ -1,0 +1,71 @@
+/* style.css */
+
+/* Header */
+.default-header {
+  background-color: #264653; /* Background color */
+  color: #fff; /* Text color */
+  padding: 10px 0; /* Add padding */
+}
+
+/* Navbar */
+.navbar {
+  padding: 0; /* Remove default padding */
+}
+
+/* Navbar Brand */
+.navbar-brand img {
+  max-height: 40px; /* Ensure the logo stays within a reasonable height */
+}
+
+/* Navbar Toggler Icon */
+.navbar-toggler-icon {
+  color: #fff; /* Set color of the toggler icon */
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+  color: #fff; /* Link text color */
+  padding: 10px 15px; /* Add padding */
+}
+
+/* Navbar Links on hover */
+.navbar-nav .nav-link:hover {
+  color: #fff; /* Change text color on hover */
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  background-color: #264653; /* Background color */
+}
+
+/* Dropdown Menu Items */
+.dropdown-menu .dropdown-item {
+  color: #fff; /* Text color */
+}
+
+/* Dropdown Menu Items on hover */
+.dropdown-menu .dropdown-item:hover {
+  background-color: #2a9d8f; /* Background color on hover */
+  color: #fff; /* Text color on hover */
+}
+
+/* Responsive Navbar */
+@media (max-width: 991.98px) {
+  /* Navbar Collapse Content */
+  .navbar-collapse {
+      background-color: #264653; /* Background color */
+      padding: 10px 0; /* Add padding */
+  }
+  
+  /* Navbar Links */
+  .navbar-nav .nav-link {
+      color: #fff; /* Link text color */
+      padding: 10px 0; /* Adjust padding */
+      border-bottom: 1px solid #2a9d8f; /* Add bottom border */
+  }
+  
+  /* Navbar Links on hover */
+  .navbar-nav .nav-link:hover {
+      background-color: #2a9d8f; /* Background color on hover */
+  }
+}

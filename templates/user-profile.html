@@ -1,0 +1,230 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <title>{{author.name}}</title>
+</head>
+
+<body>
+  
+
+  <div class="containers d-flex justify-content-center align-items-center">
+
+    <div class="cards">
+
+      <div class="upper">
+
+        <!-- <img src="https://i.imgur.com/Qtrsrk5.jpg" class="img-fluid"> -->
+
+      </div>
+
+      <div class="user text-center">
+
+        <div class="profiles">
+
+          <img src="{{author.profile.url}}" class="rounded-circle" width="80">
+
+        </div>
+
+      </div>
+
+
+      <div class="mt-5 text-center">
+
+        <h4 class="mb-0">{{author.name}}</h4>
+        <span class="text-muted d-block mb-2">{{author.user.username}}</span>
+
+        <!-- <button class="btn btn-primary btn-sm follow">Follow</button> -->
+
+
+        <div class="d-flex justify-content-between align-items-center mt-4 px-4">
+
+          <div class="stats">
+            <h6 class="mb-0">Followers</h6>
+            <span>0</span>
+
+          </div>
+
+
+          <div class="stats">
+            <h6 class="mb-0">Story</h6>
+            <span>{{story_count}}</span>
+
+          </div>
+
+
+          <div class="stats">
+            <h6 class="mb-0">Read</h6>
+            <span>12</span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+  <!-- #add social media links using fa icons -->
+
+
+
+
+
+
+
+
+  <!-- Page content -->
+  <div class="container-fluid mt--7">
+    <div class="rows">
+      <div class="row">
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+          <div class="card card-profile shadow">
+            <div class="row justify-content-center">
+              <div class="col-lg-1 order-lg-2">
+                <h2> Library</h2>
+              </div>
+            </div>
+            <div class="card-header text-center border-0 pt-4 pt-md-4 pb-0 pb-md-4">
+              <div class="d-flex justify-content-between">
+                <a href="{% url 'create-playlists' %}" class="btn btn-sm btn-info mr-4">Create New</a>
+                <a href="#" class="btn btn-sm btn-default float-right">Action</a>
+              </div>
+            </div>
+            <div class="card-body pt-0 pt-md-0">
+              <div class="row">
+                <div class="col">
+                  <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                    <div>
+                      <span class="heading">{{play_count}}</span>
+                      <span class="description">Library</span>
+                    </div>
+                    <div>
+                      <span class="heading">10</span>
+                      <span class="description">Saved</span>
+                    </div>
+                    <div>
+                      <span class="heading">89</span>
+                      <span class="description">Read</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center">
+                {% for play in playlist%}
+                <div class="list-group">
+                  <div class="list-box">
+                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h3 class="mb-1">{{play.name}}</h3>
+                      </div>
+                    </a>
+                  </div>
+
+                </div>
+                {% endfor %}
+              </div>
+
+              <button><a href="">See More</a></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-8 order-xl-1">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">My account</h3>
+                </div>
+                <div class="col-4 text-right">
+                  <a href="{% url 'edit-profile' %}" class="btn btn-sm btn-primary">Settings</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <form>
+                <h6 class="heading-small text-muted mb-4">User information</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-username">Username</label>
+                        <input type="text" id="input-username" class="form-control form-control-alternative"
+                          placeholder="Username" value={{user.username}}>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Email address</label>
+                        <input type="email" id="input-email" class="form-control form-control-alternative"
+                          placeholder={{author.email}}>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-first-name">First name</label>
+                        <input type="text" id="input-first-name" class="form-control form-control-alternative"
+                          placeholder="First name" value={{first_name}}>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-last-name">Last name</label>
+                        <input type="text" id="input-last-name" class="form-control form-control-alternative"
+                          placeholder="Last name" value="{{last_name}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4">
+                <h6 class="heading-small text-muted mb-4">About me</h6>
+                <div class="pl-lg-4">
+                  <div class="form-group focused">
+                    <label>About Me</label>
+                    <textarea rows="4" class="form-control form-control-alternative"
+                      placeholder="A few words about you ...">{{author.bio}}</textarea>
+                  </div>
+                </div>
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">Portfolios    <a href="{% url 'add-portfolio'%}"> 
+                  <i class="fas fa fa-plus"></i>
+                </a>
+                </h6>
+             
+                
+    
+                <div class="pl-lg-4">
+                  <div class="row">
+                    {% for portfolios in portfolio %}
+                    <div class="col-lg-4">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-city">{{portfolios.portfolio}}</label>
+                        <input type="text" id="input-city" class="form-control form-control-alternative"
+                          placeholder="Enter Link" value="{{portfolios.link}}">
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <hr class="my-4">
+                <!-- Description -->
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>

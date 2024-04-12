@@ -1,0 +1,215 @@
+/* Add this CSS to your storyform.css file or wherever you manage your CSS */
+
+/* Style for the form container */
+.storyform {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the form header */
+.storyform h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Style for form fields */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style for the image field */
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: none;
+    /* visibility: hidden; */
+}
+
+/* Style for the submit button */
+.storyform button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.storyform button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+#drop-area {
+    border: 2px dashed #aaa;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    border-radius: 8px;
+    min-height: 2in;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+  }
+  
+  .drop-text {
+    font-size: 18px;
+    color: #888;
+  }
+  
+  #dropped-content {
+    width: calc(100% - 23px);
+    height: 200px;
+    min-height: 69px;
+    max-height: 312px;
+    margin-top: 20px;
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #555;
+    resize: vertical;
+    background-color: #444;
+    color: #fff;
+    outline: none;
+    border-radius: 8px;
+  }
+  
+  #dropped-content::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  #dropped-content::-webkit-scrollbar-track {
+    background-color: #444;
+  }
+  
+  #dropped-content::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  #dropped-content::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+  }
+  
+  .drop-icon i {
+    color: #888;
+    font-size: 4.5rem;
+  }
+  
+  #chars {
+    color: #888;
+    float: right;
+  }
+  
+  #spellcheck {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  #outer-dot {
+    background-color: #007bff;
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 100px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 200ms;
+  }
+  
+  #dot {
+    background-color: #eee;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    margin: 0 5px;
+    transform: translateX(22px);
+    transition: transform 200ms;
+  }
+  /* CSS for Error Messages */
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+/* CSS for Form Fields */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+.see-your-story {
+    margin-top: 20px;
+    text-align: center;
+    margin-bottom: 10px;
+
+}
+
+.see-your-story button {
+    background-color: #264653;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.see-your-story button:hover {
+    background-color: #2a9d8f;
+}
+
+.see-your-story button a {
+    text-decoration: none;
+    color: inherit;
+}
