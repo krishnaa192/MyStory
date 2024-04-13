@@ -6,15 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/storyform.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <title> add Part</title>
+    <title> {{story.title}}</title>
 </head>
 <body>
     {% include 'header.html' %}
     
     <div class="storyform">
-        <h1>Add Part</h1>
+        <h1>Edit Part {{part.name}}</h1>
         <hr>
-       
             <div class="storyform">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -32,7 +31,7 @@
     {{ form.text.label_tag }}
     {{ form.text|add_class:"form-control" }} {# Add Bootstrap form-control class #}
 </div>
-                    <button type="submit" class="btn btn-primary" style="background-color: #264653;">Add Part</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #264653;">Modify Part</button>
                 </form>
             
         </div>

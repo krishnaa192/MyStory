@@ -1,19 +1,24 @@
 from django.shortcuts import render, redirect, HttpResponse
 from .models import *
 from .decorator import *
+from account.models import *
 from django.shortcuts import get_object_or_404
 from .forms import *
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.db.models import F, ExpressionWrapper, fields
+from django.utils import timezone
+
+from django.db.models import Count
 
 
 def header(request):
     user = request.user
     author = Author.objects.get(user=user)
     return render(request, 'header.html', {'author': author})
-# Create your views here.
+
 
 def Home(request): 
     cat = Category.objects.all()
@@ -31,22 +36,20 @@ def Home(request):
         if author:
             context['user'] = user
             context['author'] = author
-
     return render(request, 'home.html', context)
 
-def read_parts(request, story_id, part_id):
-    user = request.user
-    author = get_object_or_404(Author, user=user)
-    part = get_object_or_404(Part, id=part_id, story_id=story_id)
-    return render(request, 'parts.html', {'part': part, 'author': author})
+def explore(request):
+    cat = Category.objects.all()
+    stories = Story.objects.all()
+    part = Part.objects.filter(story__in=stories)
+    recent = Story.objects.all().order_by('-date')[:3]
+    paginator = Paginator(stories, 8)  # Show 6 stories per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    #make time difffernce of post  in hours
+    context = {'stories': stories, 'part': part, 'cat': cat, 'recent': recent, 'page_obj': page_obj, 'paginator': paginator}
+    return render(request, 'explore.html', context)
 
-
-def read_story(request, id):
-    user = request.user
-    author = Author.objects.get(user=user)
-    story = Story.objects.get(id=id)
-    part = Part.objects.filter(story=story)
-    return render(request, 'story.html', {'story': story, 'author': author, 'part': part})
 
 def search(request):
     query = request.GET.get('query')  
@@ -68,93 +71,23 @@ def search(request):
     else:
         # Handle the case where 'query' key is not present in request.GET
         return render(request, 'search.html', {'story': None, 'query': None})
+    
 
+##parts handling
 
-
-
-def paid_content(request):
-    return render(request, paid_content.html)
-
-
-def paid_story(request):
+def read_parts(request, story_id, part_id):
+    if not  request.user.is_authenticated:
+        return redirect('login')
     user = request.user
-    author = Author.objects.get(user=user)
-    context = {'author': author}
-    return render(request, 'paid.html', context)
+    author = get_object_or_404(Author, user=user)
+    part = get_object_or_404(Part, id=part_id, story_id=story_id)
+    return render(request, 'parts.html', {'part': part, 'author': author})
 
-
-def add_story(request):
-    user = request.user
-    try:
-        author = Author.objects.get(user=user)
-    except Author.DoesNotExist:
-        return HttpResponse("You need to create an author profile first.")
-
-    if request.method == 'POST':
-        form = StoryForm(request.POST, request.FILES)
-        if form.is_valid():
-            story = form.save(commit=False)
-            story.author = author
-            story.save()
-            return redirect('user_story', id=story.id)
-    else:
-        form = StoryForm()
-    return render(request, 'storyform.html', {'form': form, 'author': author})
-
-
-def edit_story(request, id):
-    user = request.user
-    author = Author.objects.get(user=user)
-    story = Story.objects.get(id=id)
-    if request.method == 'POST':
-        form = StoryForm(request.POST, request.FILES, instance=story)
-        if form.is_valid():
-            form.save()
-            return redirect('user_story')
-    else:
-        form = StoryForm(instance=story)
-    return render(request, 'storyform.html', {'form': form, 'author': author})
-
-
-def delete_story(request, id):
-    story = Story.objects.get(id=id)
-    story.delete()
-    return redirect('user_story')
-
-
-def delete_part(request, story_id, part_id):
-    part = Part.objects.get(id=part_id)
-    part.delete()
-    return redirect('story', id=story_id)
-
-
-def user_story(request):
-    user = request.user
-    author = Author.objects.get(user=user)
-    stories = Story.objects.filter(author=author)
-    paginator = Paginator(stories, 5)  # Show 6 stories per page
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'added_story.html', {'stories': stories, 'author': author, 'page_obj': page_obj})
-
-@is_premium_required
-def premium_story(request):
-    user = request.user
-    author = Author.objects.get(user=user)
-    stories = Story.objects.filter(author=author, premium_story=True)
-    paginator = Paginator(stories, 5)  # Show 6 stories per page
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'premiumstory.html', {'stories': stories, 'author': author, 'page_obj': page_obj})
-
-def author_story(request):
-    user = request.user
-    author = Author.objects.get(user=user)
-    story = Story.objects.filter(author=author)
-    return render(request, 'author_story.html', {'story': story, 'author': author})
-
-
+@login_required
 def add_part(request, id):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+ 
     user = request.user
     author = Author.objects.get(user=user)
     story = Story.objects.get(id=id)
@@ -180,8 +113,175 @@ def add_part(request, id):
         form = PartForm(initial={'story': story})
     return render(request, 'partform.html', {'form': form, 'story': story, 'author': author})
 
+@login_required
+def edit_part(request, story_id, part_id):
+    user = request.user
+    try:
+        author = Author.objects.get(user=user)
+        story = Story.objects.get(id=story_id)
+        part = Part.objects.get(id=part_id)
 
+        if author != story.author:
+            return HttpResponse("You are not authorized to edit this part.")
+
+        if request.method == 'POST':
+            form = PartForm(request.POST, request.FILES, instance=part, initial={'story': story})
+            if form.is_valid():
+                form.save()
+                return redirect('story', id=story_id)
+        else:
+            form = PartForm(instance=part)
+
+        return render(request, 'editpart.html', {'form': form, 'story': story, 'author': author, 'part': part})
+
+    except (Author.DoesNotExist, Story.DoesNotExist, Part.DoesNotExist):
+        return HttpResponse("Invalid request or resource does not exist.")
+
+
+@login_required
+def delete_part(request, story_id, part_id):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+    user=request.user
+    author=Author.objects.get(user=user)
+    story = Story.objects.get(id=id)
+    if story.author != author:
+        return HttpResponse("You are not authorized to delete this story.")
+    else:
+        part = Part.objects.get(id=part_id)
+        part.delete()
+    return redirect('story', id=story_id)
+
+
+
+# story handling
+
+def read_story(request, id):
+    story = Story.objects.get(id=id)
+    part = Part.objects.filter(story=story)
+    story_author=story.author
+    if request.user.is_authenticated:
+        user = request.user
+        author = Author.objects.get(user=user)
+
+    return render(request, 'story.html', {'story': story, 'author': author, 'part': part, 'story_author':story_author})
+
+
+@login_required
+def add_story(request):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+    try:
+        user = request.user
+        author = Author.objects.get(user=user)
+    except Author.DoesNotExist:
+        return HttpResponse("You need to create an author profile first.")
+
+    if request.method == 'POST':
+        form = StoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            story = form.save(commit=False)
+            story.author = author
+            story.save()
+            return redirect('user_story', id=story.id)
+    else:
+        form = StoryForm()
+    return render(request, 'storyform.html', {'form': form, 'author': author})
+
+@login_required
+def edit_story(request, id):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+    user = request.user
+    author = Author.objects.get(user=user)
+    story = Story.objects.get(id=id)
+    if request.method == 'POST':
+        form = StoryForm(request.POST, request.FILES, instance=story)
+        if form.is_valid():
+            form.save()
+            return redirect('user_story')
+    else:
+        form = StoryForm(instance=story)
+    return render(request, 'storyform.html', {'form': form, 'author': author})
+
+@login_required
+def delete_story(request, id):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+    user=request.user
+    author=Author.objects.get(user=user)
+    story = Story.objects.get(id=id)
+    if story.author != author:
+        return HttpResponse("You are not authorized to delete this story.")
+    story.delete()
+    return redirect('user_story')
+
+@login_required
+def user_story(request):
+    user = request.user
+    author = Author.objects.get(user=user)
+    stories = Story.objects.filter(author=author)
+    paginator = Paginator(stories, 5)  # Show 6 stories per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'added_story.html', {'stories': stories, 'author': author, 'page_obj': page_obj})
+
+
+
+
+##premium content handling
+
+def paid_content(request):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+    author=Author.objects.get(user=request.user)
+    if not request.author.is_premium:
+        return redirect('checkout')
+    return render(request, paid_content.html)
+
+
+def paid_story(request):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+    user = request.user
+    author = Author.objects.get(user=user)
+    context = {'author': author}
+    return render(request, 'paid.html', context)
+
+@is_premium_required
+def premium_story(request):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+
+    user = request.user
+    author = Author.objects.get(user=user)
+    stories = Story.objects.filter(author=author, premium_story=True)
+    paginator = Paginator(stories, 5)  # Show 6 stories per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'premiumstory.html', {'stories': stories, 'author': author, 'page_obj': page_obj})
+
+
+##category handling
+def categoryPage(request, name):
+    cat = Category.objects.get(name=name)
+    story = Story.objects.filter(category=cat)
+    part = Part.objects.filter(story__in=story)
+    other_categories = Category.objects.exclude(name=name)
+    recent = Story.objects.filter(category=cat).order_by('-date')[:3]
+    paginator = Paginator(story, 8)  # Show 6 stories per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'story': story, 'part': part, 'cat': cat, 'other_categories': other_categories, 'recent': recent, 'page_obj': page_obj, 'paginator': paginator}
+
+    return render(request, 'category.html', context)
+
+
+## library handling
+@login_required
 def create_playlist(request):
+    if not  request.user.is_authenticated:
+        return redirect('login')
     user = request.user
     author = Author.objects.get(user=user)
     if request.method == 'POST':
@@ -197,104 +297,7 @@ def create_playlist(request):
 # user
 
 
-def loginUser(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-    return render(request, 'login.html')
-
-
-def logoutUser(request):
-    logout(request)
-    return redirect('login')
-
-
-def registerUser(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-
-    if request.method == 'POST':
-        form = CandidateSignupForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('create-profile')
-    else:
-        form = CandidateSignupForm()
-    return render(request, 'signup.html', {'form': form})
-
-
-def author_Profile(request):
-    user = request.user
-    if request.method == 'POST':
-        form = AuthorForm(request.POST, request.FILES)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = request.user
-            profile.email = user.email
-            # Associate the profile with the user
-            profile.save()
-            return redirect('home')
-    else:
-        form = AuthorForm()
-    return render(request, 'author_signup.html', {'form': form})
-
-
-def Profile(request, name):
-    user = request.user
-    user = User.objects.get(username=name)
-    story = Story.objects.filter(author__user=user)
-    playlists = CreatePlaylist.objects.filter(author__user=user)
-    play_count = playlists.count()
-    playlist=playlists.order_by('-updated_at')[:6]
-    story_count = story.count()
-    author = Author.objects.get(user=user)
-    name = author.name
-    first_name = name.split()[0]
-    last_name = name.split()[1]
-    portfolio=AddPortfolio.objects.filter(author__user=user)
-    params = {
-        'author': author, 'story': story, 'story_count': story_count,
-          'first_name': first_name, 'last_name': last_name, 'play_count':play_count, 'playlist': playlist, 'portfolio':portfolio}
-    return render(request, 'user-profile.html', params)
-
-def edit_profile(request):
-    user = request.user
-    author = Author.objects.get(user=user)
-    form = AuthorForm(instance=author)
-    if request.method == 'POST':
-        form = AuthorForm(request.POST, request.FILES, instance=author)
-        if form.is_valid():
-            form.save()
-            return redirect('profile', name=user.username)
-        else:
-            form = AuthorForm(instance=author)
-    return render(request, 'edit_profile.html', {'form': form})
-
-
-def add_portfolio(request):
-    user=request.user
-    form=AddPortfolioForm()
-    if request.method=='POST':
-        form=AddPortfolioForm(request.POST)
-        if form.is_valid():
-            portfolio=form.save(commit=False)
-            portfolio.author=Author.objects.get(user=user)
-            portfolio.save()
-            return redirect('profile',name=user.username)
-        else:
-            form=AddPortfolioForm()
-    return render(request,'add_portfolio.html',{'form':form})
-
-
-# # payemtn
-
+# # payemt hand;ing
+@login_required
 def checkout(request):
     return render(request, 'checkout.html')

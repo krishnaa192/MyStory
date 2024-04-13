@@ -1,0 +1,14 @@
+.section-gap {
+    padding: 50px 0;
+}
+.top-section-area {
+    height: 0vh;
+  /* background-color: #264653!important; */
+  background-image: none;
+}
+.top-left h1{
+    color: black !important;
+}
+.post-lists{
+    margin-top: 0px !important;
+}
