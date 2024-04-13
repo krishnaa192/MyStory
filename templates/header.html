@@ -43,7 +43,7 @@
           <ul class="navbar-nav">
           <li><a href="{% url 'home' %}"> <i class="fas fa-home"></i>Home</a></li>
           <li><a href="{% url 'search' %}"><i class="fas fa-search"></i> Search</a></li>
-          <li><a href=""><i class="fas fa-book"></i> Explore</a></li>
+          <li><a href="{% url 'explore' %}"><i class="fas fa-book"></i> Explore</a></li>
           {%  if author.is_premium %}
           <li><a href="{%url  'premium' %}"><i class="fas fa-crown"></i>  Premium</a></li>
           {% else%}
@@ -55,12 +55,13 @@
           <li><a href="{% url 'add-story' %}"><i class="fas fa-pen"></i> Write</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-              <i class="fa-solid fa-user"></i>  {{user.username}}
+              <i class="fa-solid fa-user"></i>   <br>{{user.username}}
             </a>
             <div class="dropdown-menu">
-            <a  class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-user"></i> Logout</a>
-              <a class="dropdown-item" href="{% url 'profile'  name=user.username %}">Profile</a>
-              <a class="dropdown-item" href="">Manage Subscription</a>
+            <a  class="dropdown-item"   style="color:black"  href="{% url 'logout' %}"><i  style="color: black;"  class="fas fa-user"></i> Logout</a>
+              <a class="dropdown-item"  style="color:black"  href="{% url 'profile'  name=user.username %}">Profile</a>
+              <a class="dropdown-item"  style="color:black"  href=""> <i   style="color: black;" class="fas fa-bell"> </i>Notifications</a>
+              <a class="dropdown-item"    style="color:black"  href="">Manage Subscription</a>
             </div>
           </li>			
         

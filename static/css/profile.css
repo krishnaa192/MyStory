@@ -68,7 +68,7 @@ html {
     background-color: #fff;
     position: relative;
     height: 400px;
-    border: 1px solid red;
+    border: 2px solid #eee;
    }
 
    .upper{
@@ -1100,7 +1100,7 @@ textarea.form-control {
 .card-header {
   margin-bottom: 0;
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, .05);
+  border: 2px solid #eee!important;
   background-color: #fff;
 }
 
@@ -1350,7 +1350,7 @@ button.bg-white:focus {
 }
 
 .text-center {
-  text-align: center !important;
+  text-align: center ;
 }
 
 .text-uppercase {

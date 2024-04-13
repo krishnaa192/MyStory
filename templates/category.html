@@ -1,25 +1,19 @@
-{{%load static%}
-
+{% load static%}
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
 <head>
     <!-- Mobile Specific Meta -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon-->
-    <link rel="shortcut icon" href="img/fav.png">
-    <!-- Author Meta -->
-    <meta name="author" content="colorlib">
-    <!-- Meta Description -->
-    <meta name="description" content="">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="">
-    <!-- meta character set -->
     <meta charset="UTF-8">
-    <!-- Site Title -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+    <title>{{cat.name}}</title>
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+
 
     <link rel="stylesheet" href="{%static 'css/linearicons.css'%}">
     <link rel="stylesheet" href="{%static 'css/font-awesome.min.css' %}">
@@ -28,47 +22,19 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/explore.css' %}">
 
-    <title>Search</title>
-    <style>
-        input {
-            width: 40vw !important;
-            border: 2px solid black !important;
-        }
-        #imaginary_container {
-            border: 2px solid #eee;
-        }
-    </style>
 
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 
 <body>
     {% include 'header.html' %}
-    
+    <!-- Start top-section Area -->
     <section class="top-section-area section-gap">
         <div class="container">
-            <div class="row justify-content-center align-items-center d-flex">
-                <div class="col-lg-8">
-                    <div id="imaginary_container">
-                        <h4 style="text-align: center;">Search</h4>
-                        <div class="input-group stylish-input-group">
-                            <form style="display:flex;" action="" method="GET">
-                                <input type="text" class="form-control" id="search_input" name="query" 
-                                    placeholder="Search story,author and categories" value="{{query}}">
-
-                                <button type="submit">
-                                    <i style="color:black; font-size: 32px;"    class="fas fa-search"></i>
-                                </button>
-
-                            </form>
-                        </div>
-                    </div>
-                    {% if query %}
-                    <p class="mt-20 text-center text-white">Showing results for {{query}} </p>
-                    {%else %}
-                    <p class="mt-20 text-center text-white" style="color: black;">Search to get the results. </p>
-                    {% endif %}
+            <div class="row justify-content-between align-items-center d-flex">
+                <div class="col-lg-8 top-left">
+                    <h1 class="text-white mb-20">Category ->{{cat.name}}</h1>
                 </div>
-               
             </div>
         </div>
     </section>
@@ -82,105 +48,130 @@
             <div class="container">
                 <div class="row justify-content-center d-flex">
                     <div class="col-lg-8">
-                        <h4 class="text-uppercase pb-20">  {{results.count}}  Search result for Stories</h4>  
-                        {% if results %}
-                        <div class="post-lists search-list">
+                        <div class="top-posts">
+                            <div class="container">
 
-                            {% for result in results %}
-                            <div class="single-list d-flex">
+                            </div>
+                        </div>
+                        <div class="post-lists">
+                            {% for stories in story %}
+                            <div class="single-list flex-row d-flex">
                                 <div class="thumb">
-                                    <img style="height: 350px; width: 400px;"   src="{{result.image.url}}" alt="">
+                                    <div class="date">
+                                        <span>20</span><br>Dec
+                                    </div>
+                                    <img style="height: 300px;width: 400px;" src="{{stories.image.url}}" alt="">
                                 </div>
                                 <div class="detail">
                                     <a href="#">
-                                        <h4 class="pb-20">{{result.title}} </h4>
+                                        <h4 class="pb-20">{{stories.title}}<br>
+                                        </h4>
                                     </a>
-                                    <p><a href=""> <i style="color: black;" class="fas fa-user"></i>  {{result.author}}</a></p>
-                                    <p>   {{result.parts.all|length}}    parts   </p>
                                     <p>
-                                        {{result.description}}
+                                        {{stories.description}}
                                     </p>
-
-
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                            {% else %}
-                            <div class="post-lists search-list">
-                                <div class="single-list flex-row d-flex">
-                                    <div class="thumb">
-                                       
-                                    </div>
-                                    <div class="detail">
-
-                                        <p>No results found in stories</p>
-                                    </div>
+                                    <p> <i style="color: black;" class="fas fa-user"></i> <span style="color: blue;"> <a
+                                                href="">{{stories.author}}</a></span></p>
+                                    <p class="footer pt-20">
+                                        <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                        <a href="#">06 Likes</a> <i class="ml-20 fa fa-comment-o"
+                                            aria-hidden="true"></i> <a href="#">02 Comments</a>
+                                    </p>
                                 </div>
                             </div>
-                            {% endif %}
+                            {% endfor %}
 
                         </div>
-                        <div class="col-lg-4 sidebar-area">
-                            <div class="single_widget search_widget">
-                                <div id="imaginary_container">
-                                </div>
-                            </div>
-
-                            <div class="single_widget cat_widget">
-                                <h4 class="text-uppercase pb-20">{{categories.count}} result for categories</h4>
-                                {% if categories %}
-                                <ul>
-                                    {% for category in categories %}
-                                    <li>
-                                        <a href="#"> {{category.name}}<span>37</span></a>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1" aria-label="First">
+                                            <span aria-hidden="true">&laquo;&laquo;</span>
+                                        </a>
                                     </li>
-                                    {% endfor %}
-
-                                </ul>
-                                {% else %}
-                               
-                                        <p>No results found in categories</p>
-                                    
-                                {% endif %}
-                            </div>
-                            
-                            <div class="single_widget recent_widget">
-                              
-                                <h4 class="text-uppercase pb-20"> {{authors.count}}     Results for Author</h4>
-                                {% if authors %}
-                                <div class="active-recent-carusel">
-                                    {% for author in authors %}
-                                    <div class="item">
-                                        <p class="mt-20 title text-uppercase"> <a href="">{{author.name}}</a><br></p>
-                                    </div>
-                                    {% endfor %}
-
-                                </div>
-                                {% else %}
-
-                                <p>No results found in authors</p>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
                                 {% endif %}
                                 
+                                {% for num in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == num %}
+                                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                            <span aria-hidden="true">&raquo;&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        <div class="top-posts pt-50">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                </div>
                             </div>
-
-                            <!-- <div class="single_widget tag_widget">
-                    <h4 class="text-uppercase pb-20">Tag Clouds</h4>
-                    <ul>
-                        <li><a href="#">Lifestyle</a></li>
-                        <li><a href="#">Art</a></li>
-                        <li><a href="#">Adventure</a></li>
-                        <li><a href="#">Food</a></li>
-                        <li><a href="#">Technology</a></li>
-                        <li><a href="#">Fashion</a></li>
-                        <li><a href="#">Adventure</a></li>
-                        <li><a href="#">Food</a></li>
-                        <li><a href="#">Technology</a></li>
-                    </ul>
-                </div>                                                  -->
                         </div>
                     </div>
+                    <div class="col-lg-4 sidebar-area">
+                        <div class="single_widget search_widget">
+                            <div id="imaginary_container">
+                                <div class="input-group stylish-input-group">
+                                    <input type="text" class="form-control" placeholder="Search">
+                                    <span class="input-group-addon">
+                                        <button type="submit">
+                                            <span class="lnr lnr-magnifier"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single_widget cat_widget">
+                            <h4 class="text-uppercase pb-20">Other categories</h4>
+                            <ul>
+                                {% for cat in other_categories%}
+                                <li>
+                                    <a href="{% url 'category' name=cat.name %}">{{cat.name}}</a>
+                                </li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                        {% if story %}
+                        <div class="single_widget recent_widget">
+                            <h4 class="text-uppercase pb-20">Recent Posts in {{cat.name}}</h4>
+                            <div class="active-recent-carusel">
+                                {% for post in recent%}
+                                <div class="item">
+                                    <img   style="height: 300px;width: 300px;" src="{{post.image.url}}" alt="">
+                                    <p class="mt-20 title text-uppercase">{{post.title}} <br>
+                                       </p>
+                                    <p>{{post.date|date }}<span> <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                            06 <i class="fa fa-comment-o" aria-hidden="true"></i>02</span></p>
+                                </div>
+                                
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        {% endif %}
+                
+                    </div>
                 </div>
+            </div>
         </section>
         <!-- End post Area -->
     </div>

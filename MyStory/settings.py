@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'storys.apps.StorysConfig',
     'widget_tweaks',
     'ckeditor',
+    'account.apps.AccountConfig',
+
 
 ]
 

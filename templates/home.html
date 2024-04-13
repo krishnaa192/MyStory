@@ -49,7 +49,7 @@
           <img src="media/stories/img/corosoul2.jpg" class="d-block w-100" alt="...">
           <div class="carousel-caption d-none d-md-block">
             {% if user.is_authenticated %}
-            <p> <button class="corosoul"> <a href="">Explore</a></button></p>
+            <p> <button class="corosoul"> <a href="{% url 'explore'%}">Explore</a></button></p>
             {% else %}
             <p> <button class="corosoul"> <a href="{% url 'login' %}">Sign In</a></button></p>
             {% endif %}
@@ -78,14 +78,14 @@
         <div class="card">
           <div class="author">
             <img src="{{ single_story.author.profile.url }}" alt="">
-            <a href="#">{{ single_story.author }}</a>
+            <a href="">{{ single_story.author }}</a>
           </div>
          
           <img class="card-image" src="{{ single_story.image.url }}" alt="{{ single_story.title }}">
           <h2 class="card-title"> <a href=""></a></h2>
           <a class="read-link" href="{%url 'story' id=single_story.id %}">{{ single_story.title }}</a>
           <div class="first-story-partlist">
-            <p> <i class="fa-solid fa-list"></i> {{ single_story.parts.all|length }} Parts</p>
+            <p> <i style="color: black;" class="fa-solid fa-list"></i> {{ single_story.parts.all|length }} Parts</p>
           </div>
          
         </div>
@@ -103,7 +103,7 @@
       {% for category in cat %}
       <div class="category-card">
         <div class="cat-card-item">
-          <a href="">{{ category.name }}</a>
+          <a href="{% url 'category' name=category.name %}">{{ category.name }}</a>
         </div>
       </div>
       {% endfor %}
@@ -128,7 +128,7 @@
             <p>{{first.description}}</p>
           </div>
           <div class="first-story-partlist">
-            <p> <i class="fa-solid fa-list"></i>{{first.all|length }} Parts</p>
+            <p> <i style="color: black;" class="fa-solid fa-list"></i>{{first.parts.all|length }} Parts</p>
           </div>
           </div>
         </div>
@@ -151,7 +151,7 @@
         <h2 class="card-title"> <a href=""></a></h2>
         <a class="read-link" href="{%url 'story' id=single_story.id %}">{{ single_story.title }}</a>
         <div class="first-story-partlist">
-          <p> <i class="fa-solid fa-list"></i>     {{ single_story.parts.all|length }} Parts</p>
+          <p> <i style="color: black;"  class="fa-solid fa-list"></i>     {{ single_story.parts.all|length }} Parts</p>
         </div>
     
       </div>
