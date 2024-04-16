@@ -133,3 +133,6 @@ def AuthorProfile(request,name):
           'first_name': first_name, 'last_name': last_name,  'portfolio':portfolio}
     return render(request, 'authors.html', params)
 
+@login_required
+def manage_subs(request):
+    return render(request,'managesubs.html')

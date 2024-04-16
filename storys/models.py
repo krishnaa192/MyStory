@@ -80,3 +80,22 @@ class CreatePlaylist(models.Model):
     def __str__(self):
         return self.name
     
+
+
+class Likes(models.Model):
+    liked_user=models.ForeignKey(Author, on_delete=models.CASCADE,related_name='Like')
+    post=models.ManyToManyField(Story)
+    liked_at=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.liked_user+'liked ' + self.post
+    
+
+class Comment(models.Model):
+    comment_user=models.ForeignKey(Author, on_delete=models.CASCADE,related_name='comment')
+    post=models.ManyToManyField(Story)
+    commented_at=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment_user +'liked ' + self.post
+    

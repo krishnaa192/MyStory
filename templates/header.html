@@ -61,7 +61,7 @@
             <a  class="dropdown-item"   style="color:black"  href="{% url 'logout' %}"><i  style="color: black;"  class="fas fa-user"></i> Logout</a>
               <a class="dropdown-item"  style="color:black"  href="{% url 'profile'  name=user.username %}">Profile</a>
               <a class="dropdown-item"  style="color:black"  href=""> <i   style="color: black;" class="fas fa-bell"> </i>Notifications</a>
-              <a class="dropdown-item"    style="color:black"  href="">Manage Subscription</a>
+              <a class="dropdown-item"    style="color:black"  href="{% url 'subscription' %}">Manage Subscription</a>
             </div>
           </li>			
         
