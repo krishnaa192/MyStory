@@ -1,0 +1,130 @@
+body {
+    box-sizing: border-box;
+    margin: 0%;
+    padding: 0%;
+}
+.plan-list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #9a8c98;
+    border: 1px solid  blue;
+    width: 37vw;
+    margin-right: 2rem;
+    height: 26vh;
+}
+.plan-list-active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid  blue;
+    width: 37vw;
+    margin-right: 2rem;
+    height: 26vh;
+}
+.pay-plan{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+   
+}
+.plan-cont{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 30vw;
+
+
+}
+.fa-check-circle{
+    position:sticky;
+    top: 26.5%;
+    left:47.2%;
+}
+.pay-head{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.pay-head h1{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+.plan-head p{
+    font-size: 0.7rem;
+    margin-top: -1rem;
+}
+.plan-cont span{
+font-size: 1.3rem;
+    margin-top: 1rem;
+}
+.plan-btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 1.5rem;
+}
+.plan-btn p{
+    margin-left: 6rem;
+}
+.plan-btn button{
+    background-color: #023047;
+    border: 1px solid blue;
+    padding: 0.5rem;
+    margin-left: 1rem;
+
+}
+.plan-btn button a{
+    color:#eee;
+}
+
+/* payment method */
+
+.payment-details,.billing-history{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.payment-details h1{
+    margin-top: 2rem;
+}
+.payment-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 25vw;
+    height: 222px;
+    border: 2px solid #eee;
+    margin-right: 2rem;
+}
+.payment-box ul{
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 0;
+    text-align: justify;
+
+}
+.payment-box li{
+    display: flex;
+    justify-content: space-between;
+   
+    margin-top: 1rem;
+}
+.payment-box h2{
+    text-align: center;
+}
+.billing-history ul{
+    display: flex;
+
+}
+.billing-history ul li{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

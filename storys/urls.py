@@ -19,6 +19,7 @@ urlpatterns = [
     path('create-playlists/',views.create_playlist,name="create-playlists"),
     path('add-part/<int:id>/', views.add_part, name="add-part"),
     path('user-story/', views.user_story, name="user_story"),
+    path('like/', views.likes, name="like"),
 
 
 #user

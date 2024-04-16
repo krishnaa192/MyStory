@@ -14,4 +14,5 @@ urlpatterns = [
     path('portfolio/', views.add_portfolio, name='add-portfolio'),
     
     path('author/<str:name>/', views.AuthorProfile, name='author'),
+    path('subscription/',views.manage_subs,name="subscription"),
 ]

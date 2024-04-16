@@ -256,10 +256,11 @@ def premium_story(request):
     user = request.user
     author = Author.objects.get(user=user)
     stories = Story.objects.filter(author=author, premium_story=True)
+    cat= Category.objects.filter(story__in=stories)
     paginator = Paginator(stories, 5)  # Show 6 stories per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'premiumstory.html', {'stories': stories, 'author': author, 'page_obj': page_obj})
+    return render(request, 'premiumstory.html', {'stories': stories, 'author': author, 'page_obj': page_obj, 'cat': cat})
 
 
 ##category handling
@@ -275,6 +276,28 @@ def categoryPage(request, name):
     context = {'story': story, 'part': part, 'cat': cat, 'other_categories': other_categories, 'recent': recent, 'page_obj': page_obj, 'paginator': paginator}
 
     return render(request, 'category.html', context)
+
+
+
+# comment and likes handling
+
+def likes(request):
+    if not  request.user.is_authenticated:
+        return redirect('login')
+    user = request.user
+    author = Author.objects.get(user=user)
+    if request.method == 'POST':
+        story_id = request.POST.get('story_id')
+        story = Story.objects.get(id=story_id)
+        like = Likes.objects.create(liked_user=author)
+        like.post.add(story)
+        like.save()
+    return redirect('/')
+     
+    
+
+
+
 
 
 ## library handling
